@@ -1,21 +1,14 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import Todo from './Todo'
+import QA from './QA'
 
-class Display extends Component {
+class History extends Component {
   state = {
-    todos: [],
-    input: ''
+    todos: [ ],
+    currentQA: { },
   }
 
-  componentDidMount() {
-    axios.get('/api/todo').then(res => {
-      this.setState({
-        todos: res.data
-      })
-    })
-  }
-
+  
   handleChange = (e) => {
     this.setState({
       input: e.target.value
@@ -24,15 +17,17 @@ class Display extends Component {
 
   handleSubmit = () => {
     axios.post('/api/todo', { text: this.state.input }).then(res => {
+      console.log(res);
       this.setState({
-        todos: res.data,
-        text: ''
+        todos: res.data.history,
+        currentQA: res.data.currentQA
       })
     })
   }
 
   handleEdit = (id, text) => {
     axios.put(`/api/todo/${id}`, { text }).then(res => {
+      console.log(text)
       this.setState({
         todos: res.data
       })
@@ -50,22 +45,23 @@ class Display extends Component {
   render() {
 
     let list = this.state.todos.map(element => {
-      return <Todo
+      return <QA
         handleDelete={this.handleDelete}
         handleEdit={this.handleEdit}
         key={element.id}
         id={element.id}
-        text={element.text} />
+        question={ element.question }
+        answer={element.answer } />
     })
 
     return (
-      <div>
-        {list}
-        <input value={this.state.text} onChange={(e) => this.handleChange(e)} type="text" />
-        <button onClick={this.handleSubmit}>Add Item</button>
+      <div className="historyBox">
+        <input className= "qInput" placeholder="Type question here..." value={this.state.text} onChange={(e) => this.handleChange(e)} type="text" />
+        <button className= "myButton1" onClick={this.handleSubmit}>  Ask</button>
+       <div className= "list" > {list} </div>
       </div>
     )
   }
 }
 
-export default Display
+export default History

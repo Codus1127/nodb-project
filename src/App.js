@@ -1,12 +1,17 @@
 import React from 'react';
 import './App.css';
-import Display from './Components/Display'
+import History from './Components/History'
+import Header from './Components/Header'
 
 function App() {
   return (
     <div className="App">
-      <h1>Andrew's Super Fun Todo List!</h1>
-      <Display/>
+      <Header />
+      <img className="eightBall" alt="" src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Magic_eight_ball.png"/>
+      {/* <img className="fog" alt="" src="http://www.pngnames.com/files/4/Fog-PNG-Photo.png"/> */}
+      <History/>
+      
+      
     </div>
   );
 }
